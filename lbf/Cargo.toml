@@ -25,6 +25,8 @@ tribool = "0.3.0"
 almost = "0.2.0"
 test-case = "3.3.1"
 thousands = "0.2.0"
+warp = "0.3.7"
+tokio = { version = "1.38.0", features = ["rt", "rt-multi-thread", "macros"] }
 
 [dev-dependencies]
 criterion = "0.5.1"
