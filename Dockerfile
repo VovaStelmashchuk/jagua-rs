@@ -1,31 +1,23 @@
 # Use the official Rust image as a base image
-FROM rust:latest
+FROM rust:latest AS builder
 
 # Create a new directory for the project and set it as the working directory
 WORKDIR /usr/src/app
 
-# Copy the Cargo.toml files first to leverage Docker cache
-COPY ./jagua-rs/Cargo.toml ./jagua-rs/Cargo.toml
-COPY ./lbf/Cargo.toml ./lbf/Cargo.toml
-
-# Create an empty main file to build dependencies first
-RUN mkdir -p ./jagua-rs/src ./lbf/src
-RUN echo "fn main() {}" > ./jagua-rs/src/main.rs
-RUN echo "fn main() {}" > ./lbf/src/main.rs
-
+# Copy the source code
+COPY . .
 # build cargo for lbf and jagua-rs
 RUN cargo build --release --manifest-path ./jagua-rs/Cargo.toml
 RUN cargo build --release --manifest-path ./lbf/Cargo.toml
 
-# Copy the source code
-COPY . .
+# Start a new stage to create a smaller image without unnecessary build dependencies
+FROM debian:bookworm-slim
 
-RUN cd lbf
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Build the application
-RUN cargo build --release
-
-EXPOSE 3030
+# Copy the built binary from the previous stage
+COPY --from=builder /usr/src/app/lbf/target/release/lbf .
 
 # Command to run the application
-CMD ["./target/release/lbf"]
+CMD ["./lbf"]

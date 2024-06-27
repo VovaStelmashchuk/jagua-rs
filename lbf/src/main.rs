@@ -34,7 +34,7 @@ struct RequestBody {
 
 #[tokio::main]
 async fn main() {
-    // print a message
+    print!("Starting server");
     let run = warp::post()
         .and(warp::path("run"))
         .and(warp::body::json())
@@ -92,7 +92,7 @@ async fn main() {
         });
 
     warp::serve(run)
-        .run(([127, 0, 0, 1], 3030))
+        .run(([0, 0, 0, 0], 3030))
         .await;
 }
 

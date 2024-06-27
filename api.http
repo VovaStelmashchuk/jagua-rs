@@ -1,8 +1,8 @@
-POST http://127.0.0.1:3030/run/
+POST http://0.0.0.0:3030/run/
 Content-Type: application/json
 
 {
-  "uuid": "uuid-good",
+  "uuid": "uuid-good_Tttt1",
   "input": {
     "Name": "swim",
     "Items": [
