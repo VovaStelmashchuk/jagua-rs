@@ -13,11 +13,14 @@ RUN mkdir -p ./jagua-rs/src ./lbf/src
 RUN echo "fn main() {}" > ./jagua-rs/src/main.rs
 RUN echo "fn main() {}" > ./lbf/src/main.rs
 
-# Build the dependencies only
-RUN cargo build --release
+# build cargo for lbf and jagua-rs
+RUN cargo build --release --manifest-path ./jagua-rs/Cargo.toml
+RUN cargo build --release --manifest-path ./lbf/Cargo.toml
 
 # Copy the source code
 COPY . .
+
+RUN cd lbf
 
 # Build the application
 RUN cargo build --release
@@ -25,4 +28,4 @@ RUN cargo build --release
 EXPOSE 3030
 
 # Command to run the application
-CMD ["./lbf/target/release/lbf"]
+CMD ["./target/release/lbf"]
