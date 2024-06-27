@@ -21,11 +21,13 @@ RUN cargo build --release
 # Copy the source code
 COPY . .
 
+RUN cd lbf
+
 # Build the application
 RUN cargo build --release
 
 # Expose the port the app runs on (change 8080 to your application's port if different)
-EXPOSE 8080
+EXPOSE 3030
 
 # Command to run the application
 CMD ["./lbf/target/release/lbf"]
