@@ -1,9 +1,8 @@
-### POST
-
 POST http://127.0.0.1:3030/run/
 Content-Type: application/json
 
 {
+  "uuid": "uuid-good",
   "input": {
     "Name": "swim",
     "Items": [
@@ -1095,7 +1094,7 @@ Content-Type: application/json
     },
     "poly_simpl_tolerance": 0.001,
     "prng_seed": 0,
-    "n_samples": 5000,
+    "n_samples": 50000,
     "ls_frac": 0.2
   }
 }

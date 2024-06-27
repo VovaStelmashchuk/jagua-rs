@@ -4,6 +4,13 @@
 
 <img src="img/jaguars_logo.svg" width="100%" height="300px" alt="jagua-rs logo">
 
+### Fork differences
+
+- Change CLI interface to Rest Api interface
+- Remove work with json files, all data receive from endpoint body by POST request
+- The data return in response body
+- The solution svg saved as file only to debug reasons
+
 ## Preamble
 
 2D irregular cutting and packing (C&P) problems are a class of combinatorial optimization problems that involve placing irregular

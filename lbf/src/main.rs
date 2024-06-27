@@ -20,91 +20,14 @@ use lbf::io::layout_to_svg::s_layout_to_svg;
 use lbf::lbf_config::LBFConfig;
 use lbf::lbf_optimizer::LBFOptimizer;
 use lbf::{io, EPOCH};
+use warp::Filter;
 
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-//more efficient allocator
-fn mainOld() {
-    let args = Cli::parse();
-    io::init_logger(args.log_level);
-
-    let config = match args.config_file {
-        None => {
-            warn!("No config file provided, use --config-file to provide a custom config");
-            warn!(
-                "Falling back default config:\n{}",
-                serde_json::to_string(&LBFConfig::default()).unwrap()
-            );
-            LBFConfig::default()
-        }
-        Some(config_file) => {
-            let file = File::open(config_file).unwrap_or_else(|err| {
-                panic!("Config file could not be opened: {}", err);
-            });
-            let reader = BufReader::new(file);
-            serde_json::from_reader(reader).unwrap_or_else(|err| {
-                error!("Config file could not be parsed: {}", err);
-                error!("Omit the --config-file argument to use the default config");
-                panic!();
-            })
-        }
-    };
-
-    let json_instance: JsonInstance = io::read_json_instance(args.input_file.as_path());
-    let poly_simpl_config = match config.poly_simpl_tolerance {
-        Some(tolerance) => PolySimplConfig::Enabled { tolerance },
-        None => PolySimplConfig::Disabled,
-    };
-
-    let parser = Parser::new(poly_simpl_config, config.cde_config, true);
-    let instance = parser.parse(&json_instance);
-
-    let rng = match config.prng_seed {
-        Some(seed) => SmallRng::seed_from_u64(seed),
-        None => SmallRng::from_entropy(),
-    };
-
-    let mut optimizer = LBFOptimizer::new(instance.clone(), config, rng);
-    let solution = optimizer.solve();
-
-    let json_output = JsonOutput {
-        instance: json_instance.clone(),
-        solution: parser::compose_json_solution(&solution, &instance, EPOCH.clone()),
-        config: config.clone(),
-    };
-
-    if !args.solution_folder.exists() {
-        fs::create_dir_all(&args.solution_folder).unwrap_or_else(|_| {
-            panic!(
-                "could not create solution folder: {:?}",
-                args.solution_folder
-            )
-        });
-    }
-
-    let input_file_stem = args.input_file.file_stem().unwrap().to_str().unwrap();
-
-    let solution_path = args
-        .solution_folder
-        .join(format!("sol_{}.json", input_file_stem));
-    io::write_json_output(&json_output, Path::new(&solution_path));
-
-    for (i, s_layout) in solution.layout_snapshots.iter().enumerate() {
-        let svg_path = args
-            .solution_folder
-            .join(format!("sol_{}_{}.svg", input_file_stem, i));
-        io::write_svg(
-            &s_layout_to_svg(s_layout, &instance, config.svg_draw_options),
-            Path::new(&svg_path),
-        );
-    }
-}
-
-use warp::Filter;
-
 #[derive(Serialize, Deserialize, Clone)]
-pub struct RequestBody {
+struct RequestBody {
+    uuid: String,
     input: JsonInstance,
     config: LBFConfig,
 }
@@ -120,6 +43,7 @@ async fn main() {
             // Here, you would call your existing CLI function with the provided arguments
             // For the sake of this example, let's just return a dummy response
 
+            let uuid = body.uuid;
             let json_instance = body.input;
             let config = body.config;
 
@@ -145,7 +69,7 @@ async fn main() {
                 config: config.clone(),
             };
 
-            let solution_folder = Path::new("solutions_test");
+            let solution_folder = Path::new("../solutions");
 
             fs::create_dir_all(&solution_folder).unwrap_or_else(|_| {
                 panic!(
@@ -154,16 +78,9 @@ async fn main() {
                 )
             });
 
-            let solution_path = solution_folder
-                .join(format!("sol_{}.json", '0'));
-
-            //panic!("solution path {}", solution_path.to_str().unwrap());
-
-            io::write_json_output(&json_output, Path::new(&solution_path));
-
             for (i, s_layout) in solution.layout_snapshots.iter().enumerate() {
                 let svg_path = solution_folder
-                    .join(format!("sol_{}_{}.svg", "input_file_stem", i));
+                    .join(format!("solution_{}_{}.svg", uuid, i));
 
                 io::write_svg(
                     &s_layout_to_svg(s_layout, &instance, config.svg_draw_options),
@@ -171,7 +88,7 @@ async fn main() {
                 );
             }
 
-            "tset"
+            warp::reply::json(&json_output)
         });
 
     warp::serve(run)
