@@ -30,3 +30,9 @@
 /target
 LICENSE
 README.md
+
+/img
+/assets
+/.github
+api.http
+bad_placement.http
