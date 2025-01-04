@@ -1,0 +1,19 @@
+# Ignore target directories
+target/
+**/target
+
+# Ignore Git metadata
+.git
+.gitignore
+
+# Ignore Dockerfile and Dockerignore (optional)
+Dockerfile
+.dockerignore
+
+# Ignore other unnecessary files
+*.md
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "jagua-rs",
+    "lbf",
+    "server",
+    "arr_macro_impl",
+]

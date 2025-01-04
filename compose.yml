@@ -1,0 +1,8 @@
+services:
+  web:
+    image: ghcr.io/vovastelmashchuk/jagua-rs:5edb9f2
+    ports:
+      - "20001:3030"
+    deploy:
+      update_config:
+        order: start-first

@@ -1,0 +1,19 @@
+[package]
+name = "server"
+version = "0.2.0"
+edition = "2021"
+authors = ["Stelmashchuk"]
+
+[dependencies]
+jagua-rs = { path = "../jagua-rs" }
+lbf = { path = "../lbf"  }
+clap = { version = "4.4.18", features = ["derive"] }
+log = "0.4.20"
+mimalloc = "0.1.39"
+rand = { version = "0.8.5", features = [ "small_rng" ] }
+rand_distr = "0.4.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+warp = "0.3.7"
+tokio = { version = "1.38.0", features = ["rt", "rt-multi-thread", "macros"] }
+
