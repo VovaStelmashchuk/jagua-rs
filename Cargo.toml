@@ -1,7 +1,7 @@
 [workspace]
 members = [
+    "pybind",
     "jagua-rs",
-    "lbf",
-    "server",
-    "arr_macro_impl",
+    "lbf"
 ]
+
