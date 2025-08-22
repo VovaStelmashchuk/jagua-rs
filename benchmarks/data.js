@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1755897137604,
+  "lastUpdate": 1755897186660,
   "repoUrl": "https://github.com/VovaStelmashchuk/jagua-rs",
   "entries": {
     "Performance Tracker": [
@@ -233,6 +233,84 @@ window.BENCHMARK_DATA = {
             "name": "cde_detect_1k/5",
             "value": 217019,
             "range": "± 3138",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vovochkastelmashchuk@gmail.com",
+            "name": "Volodymyr Stelmashchuk",
+            "username": "VovaStelmashchuk"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b35a0210a6ca8036df2aac6e43af8b751c102ee6",
+          "message": "Merge branch 'JeroenGar:main' into main",
+          "timestamp": "2025-08-23T00:10:26+03:00",
+          "tree_id": "c0a2b08a07b49d5f4a90ea641af9fab3e0a6ad9c",
+          "url": "https://github.com/VovaStelmashchuk/jagua-rs/commit/b35a0210a6ca8036df2aac6e43af8b751c102ee6"
+        },
+        "date": 1755897182645,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "cde_collect_1k/3",
+            "value": 2273755,
+            "range": "± 146921",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_collect_1k/4",
+            "value": 2598895,
+            "range": "± 136916",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_collect_1k/5",
+            "value": 2601988,
+            "range": "± 136891",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_update_1k/3",
+            "value": 2405719,
+            "range": "± 56234",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_update_1k/4",
+            "value": 4247931,
+            "range": "± 17104",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_update_1k/5",
+            "value": 8240133,
+            "range": "± 45488",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_detect_1k/3",
+            "value": 244182,
+            "range": "± 6230",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_detect_1k/4",
+            "value": 220201,
+            "range": "± 4147",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "cde_detect_1k/5",
+            "value": 217094,
+            "range": "± 3039",
             "unit": "ns/iter"
           }
         ]
